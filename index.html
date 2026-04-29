@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://xuanbo.top/assets/simple-notice/index.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>简·搜索</title>
+    <script>
+      // 立即设置主题防止闪烁
+      // 1. 全局开启进度条
+      SimpleNotify.configure({ showProgressBar: true });
+      (function() {
+          const savedTheme = localStorage.getItem('theme') || 'light';
+          document.documentElement.setAttribute('data-bs-theme', savedTheme);
+      })();
+
+  </script>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="./ico.png" type="image/png">
+    <script src="UIsettings.js"></script>
+    <script src="theme.js"></script>
+</head>
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function() {
+    navigator.serviceWorker.register('/sw.js').then(function(registration) {
+      console.log('ServiceWorker 注册成功:', registration.scope);
+    }, function(err) {
+      console.log('ServiceWorker 注册失败:', err);
+    });
+  });
+}
+</script>
+<body>
+    <div class="weather-display" id="weatherDisplay"></div>
+    <div class="container">
+        <h1 class="search-title">简·搜索</h1>
+        <div class="search-subtitle" id="searchSubtitle">将使用 Microsoft Bing 进行搜索</div>
+        
+        <div class="search-row">
+            <div class="engine-selector">
+                <select id="engineSelect"></select>
+            </div>
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="输入搜索内容..." autocomplete="off" autofocus>
+                <button id="searchButton">搜索</button>
+            </div>
+        </div>
+        <ul id="suggestions"></ul>
+        <br>
+        <div class="quick-links" id="quickLinks"></div>
+    </div>
+
+    <div class="footer">
+        <div class="hitokoto" id="hitokoto"></div>
+        <div class="links">
+            <a href="settings.html">设置</a> | Powered by<a href="http://xuanbo.top" target="_blank">Xuanbo.top</a>
+        </div>
+        <div class="links-OnlySettings">
+            <a href="settings.html">设置</a>
+        </div>
+    </div>
+    <script src="script.js"></script>
+    <script src="title.js"></script>
+</body>
+</html>
