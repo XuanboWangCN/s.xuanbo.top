@@ -1,5 +1,5 @@
 // 定义缓存的名称（包含版本号以便更新）
-const CACHE_NAME = 'JianSouSuoV8.23312.top';
+const CACHE_NAME = 'JianSouSuoV9.1';
 // 需要缓存的资源列表
 const STATIC_ASSETS = [
   '/',
