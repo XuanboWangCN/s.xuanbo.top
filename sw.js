@@ -1,5 +1,5 @@
 // 定义缓存的名称（包含版本号以便更新）
-const CACHE_NAME = 'JianSouSuoV8.23312.top';
+const CACHE_NAME = 'JianSouSuoV9';
 // 需要缓存的资源列表
 const STATIC_ASSETS = [
   '/',
@@ -23,7 +23,17 @@ self.addEventListener('install', event => {
     caches.open(CACHE_NAME)
       .then(cache => {
         console.log('简·搜索: Log 正在缓存静态资源');
-        return cache.addAll(STATIC_ASSETS);
+        // 逐个添加资源，避免单个失败导致整个缓存失败
+        return Promise.all(
+          STATIC_ASSETS.map(asset => {
+            return cache.add(asset).catch(err => {
+              console.warn(`简·搜索: Warning 无法缓存资源: ${asset}`, err);
+            });
+          })
+        );
+      })
+      .catch(err => {
+        console.error('简·搜索: Error 缓存打开失败:', err);
       })
   );
 });
