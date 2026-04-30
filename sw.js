@@ -1,15 +1,19 @@
 // 定义缓存的名称（包含版本号以便更新）
-const CACHE_NAME = 'JianSouSuoV8.2atXuanbo.top';
+const CACHE_NAME = 'JianSouSuoV8.23312.top';
 // 需要缓存的资源列表
 const STATIC_ASSETS = [
   '/',
   '/ico.png',
   '/index.html',
   '/script.js',
-  '/settings.html',
   '/style.css',
   '/theme.js',
-  '/title.js','/UIsettings.js',
+  '/title.js',
+  '/UIsettings.js',
+  '/function/settings/index.html',
+  '/function/oobe/index.html',
+  '/function/oobe/oobe.js',
+  '/simple-notice/index.js',
   'https://cdn.bootcdn.net/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js'
 ];
 
@@ -43,33 +47,26 @@ self.addEventListener('activate', event => {
 // 拦截请求并返回缓存或网络
 self.addEventListener('fetch', event => {
   const requestUrl = new URL(event.request.url);
-  
-  // 只处理同源请求
-  if (requestUrl.origin !== location.origin) {
-    return;
-  }
-  
+
   // 检查请求是否在缓存列表中
   const shouldCache = STATIC_ASSETS.some(asset => {
-    return requestUrl.pathname === asset || 
-           (asset === '/' && requestUrl.pathname === '/index.html');
+    if (asset.startsWith('http')) {
+      return event.request.url === asset;
+    }
+    return requestUrl.origin === location.origin &&
+           (requestUrl.pathname === asset ||
+            (asset === '/' && requestUrl.pathname === '/index.html'));
   });
-  
+
   if (shouldCache) {
-    // 对于静态资源，优先从缓存获取
     event.respondWith(
       caches.match(event.request)
         .then(cachedResponse => {
-          // 如果缓存中有，返回缓存内容
           if (cachedResponse) {
             return cachedResponse;
           }
-          // 否则从网络获取
           return fetch(event.request);
         })
     );
-  } else {
-    // 对于API请求等不在缓存列表中的内容，直接从网络获取
-    return;
   }
 });

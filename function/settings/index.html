@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-bs-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex">
+    <title>设置 - 简·搜索</title>
+    <script src="https://xuanbo.top/assets/simple-notice/index.js" async></script>
+    <script src="../../theme.js"></script>
+    <script src="../../UIsettings.js"></script>
+    <link href="https://cdn.bootcdn.net/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../style.css">
+    <link rel="icon" href="../../ico.png" type="image/png">
+    <style>
+        .settings-wrapper {
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        
+        .settings-panel {
+            border-radius: 10px;
+            border: 1px solid var(--bs-border-color);
+            background: var(--bs-body-bg);
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+        }
+        
+        .settings-header {
+            padding: 1rem 1.5rem;
+            background-color: var(--bs-tertiary-bg);
+            border-bottom: 1px solid var(--bs-border-color);
+        }
+        
+        .settings-body {
+            padding: 1.5rem;
+        }
+        
+        .settings-section {
+            padding: 1.5rem 0;
+            border-bottom: 1px solid var(--bs-border-color);
+            margin-bottom: 1.5rem;
+        }
+        
+        .settings-section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        /* 修改为固定两列布局 */
+        .quick-links-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+        
+        /* 快捷链接项样式优化 */
+        .quick-link-item {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem;
+            border-radius: 6px;
+            background-color: var(--bs-body-bg);
+            border: 1px solid var(--bs-border-color);
+            transition: all 0.2s ease;
+            min-width: 0;
+            max-width: 100%;
+            box-sizing: border-box;
+        }
+        
+        .quick-link-item:hover {
+            background-color: var(--bs-tertiary-bg);
+        }
+        
+        .quick-link-content {
+            flex: 1;
+            min-width: 0;
+            padding-right: 0.5rem;
+            overflow: hidden;
+        }
+        
+        .quick-link-name {
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            color: var(--bs-body-color);
+        }
+        
+        .quick-link-url {
+            color: var(--bs-secondary-color);
+            font-size: 0.8rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: block;
+        }
+        
+        .btn-delete {
+            flex-shrink: 0;
+            width: 70px;
+        }
+        
+        .empty-message {
+            color: var(--bs-secondary-color);
+            text-align: center;
+            padding: 1.5rem 0;
+            grid-column: 1 / -1;
+        }
+        
+        .add-quicklink-form {
+            padding: 1rem;
+            border-radius: 8px;
+            background-color: var(--bs-tertiary-bg);
+            margin-bottom: 1.5rem;
+        }
+        
+        .footer-links {
+            text-align: center;
+            padding-top: 1.5rem;
+            margin-top: 1.5rem;
+            border-top: 1px solid var(--bs-border-color);
+        }
+        
+        @media (max-width: 768px) {
+            .settings-wrapper {
+                padding: 0;
+            }
+            
+            /* 小屏幕下改为单列 */
+            .quick-links-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .quick-link-item {
+                flex-direction: row;
+            }
+            
+            .btn-delete {
+                width: 70px;
+                margin-top: 0;
+            }
+        }
+    </style>
+</head>
+<body class="bg-body-tertiary">
+    <div class="settings-wrapper">
+        <div class="settings-panel">
+            <div class="settings-header">
+                <h1 class="h5 mb-0"><a href="../../index.html" class="link-secondary text-decoration-none d-inline-flex align-items-center mb-2">← 返回 简·搜索</a></h1>
+                <h1 class="h4 mb-0">设置</h1>
+            </div>
+            
+            <div class="settings-body">
+                <div class="settings-section">
+                    <h2 class="h5 mb-3">主题</h2>
+                    <div class="mb-3">
+                        <label class="form-label">配色模式</label>
+                        <select class="form-select" id="themeSelect">
+                            <option value="light">浅色模式</option>
+                            <option value="dark">深色模式</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="settings-section">
+                    <h2 class="h5 mb-3">搜索建议</h2>
+                    <div class="mb-3">
+                        <label class="form-label">点击搜索建议后的行为</label>
+                        <select class="form-select" id="suggestionBehavior">
+                            <option value="fill">填充到搜索框（需手动点击搜索）</option>
+                            <option value="direct">直接跳转搜索结果</option>
+                        </select>
+                        <div class="form-text">选择点击搜索建议时是填充到搜索框还是直接跳转</div>
+                    </div>
+                </div>
+                
+                <div class="settings-section">
+                    <h2 class="h5 mb-3">天气显示</h2>
+                    <div class="mb-3">
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" role="switch" id="weatherToggle">
+                            <label class="form-check-label" for="weatherToggle">显示天气信息</label>
+                        </div>
+                        <div class="form-text">在页面左上角显示当前位置天气（需要网络连接）</div>
+                    </div>
+                </div>
+                
+                <div class="settings-section">
+                    <h2 class="h5 mb-3">快捷链接</h2>
+                    <h3 class="h6 mb-3">添加快捷链接 <small class="text-muted">* 最多16个</small></h3>
+                    <div class="add-quicklink-form">
+                        <div class="row g-2">
+                            <div class="col-md-5">
+                                <label for="quickName" class="form-label">网站名称</label>
+                                <input type="text" class="form-control" id="quickName" placeholder="例如: GitHub" maxlength="20">
+                            </div>
+                            <div class="col-md-5">
+                                <label for="quickUrl" class="form-label">网站地址</label>
+                                <input type="text" class="form-control" id="quickUrl" placeholder="例如: https://github.com">
+                            </div>
+                            <div class="col-md-2 d-flex align-items-end">
+                                <button class="btn btn-primary w-100" id="addQuickLink">添加</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-2">
+                        <h3 class="h6 mb-3">当前快捷链接</h3>
+                        <div class="quick-links-container" id="currentQuickLinks">
+                            <div class="empty-message">暂无快捷网站，请在上方添加</div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    <div style="text-align:center; margin-top:1.5rem; color: var(--bs-secondary-color); font-size: 0.9rem;">
+        简·搜索
+        <p>Copyright © <a href="https://github.com/XuanboWangCN" target="_blank">XuanboWang</a> 2025. All rights reserved.<br>
+        Powered by <a href="https://xuanbo.top" target="_blank">Xuanbo.top</a><br></p>
+    </div>
+
+    <script src="https://cdn.bootcdn.net/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="../../script.js"></script>
+</body>
+</html>
