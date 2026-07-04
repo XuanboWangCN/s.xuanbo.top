@@ -1,5 +1,5 @@
 // 定义缓存的名称（包含版本号以便更新）
-const CACHE_NAME = 'JianSouSuo v9.6 fixed 2026-07-04'; // 可以根据需要更新版本号
+const CACHE_NAME = 'JianSouSuo v9.5 26-7-4'; // 可以根据需要更新版本号
 // 需要缓存的资源列表
 const STATIC_ASSETS = [
   '/',
