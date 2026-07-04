@@ -5,9 +5,14 @@ html {
 }
 
 html[data-bs-theme="dark"] {
-    background-color: #1e1e1e;
+    background-color: var(--bg-color);
 }
-
+html[data-bs-theme="dark-Google"] {
+    background-color: var(--bg-color);
+}
+html[data-bs-theme="dark-Edge"] {
+    background-color: var(--bg-color);
+}
 /* 基础样式 */
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -252,16 +257,75 @@ body {
     --bg-color: #1e1e1e;
     --text-color: #e8eaed;
     --secondary-text: #9aa0a6;
-    --input-bg: #2d2e30;
+     --input-bg: #2d2e30;
     --border-color: #3c4043;
     --hover-bg: #3c4043;
     --hover-border: #5f6368;
     --card-bg: #2b3035;
+    --bs-body-bg: #1e1e1e;
+    --bs-body-color: #e8eaed;
+    --bs-body-tertiary-bg: #2b3035;
+    --bs-tertiary-bg: #2b3035;
+    --bs-secondary-color: #9aa0a6;
+    --bs-border-color: #3c4043;
+    --bs-link-color: #8ab4f8;
+    --bs-form-control-bg: #2d2e30;
+    --bs-form-control-border-color: #3c4043;
+    --bs-form-control-color: #e8eaed;
+    --bs-form-select-bg: #2d2e30;
+    --bs-form-select-color: #e8eaed;
+}
+[data-bs-theme="dark-Google"] {
+    --bg-color: #323336;
+    --text-color: #e8eaed;
+    --secondary-text: #9aa0a6;
+    --input-bg: #414245;
+    --border-color: #3c4043;
+    --hover-bg: #3c4043;
+    --hover-border: #5f6368;
+    --card-bg: #2b3035;
+    --bs-body-bg: #323336;
+    --bs-body-color: #e8eaed;
+    --bs-body-tertiary-bg: #2b3035;
+    --bs-tertiary-bg: #2b3035;
+    --bs-secondary-color: #9aa0a6;
+    --bs-border-color: #3c4043;
+    --bs-link-color: #8ab4f8;
+    --bs-form-control-bg: #414245;
+    --bs-form-control-border-color: #3c4043;
+    --bs-form-control-color: #e8eaed;
+    --bs-form-select-bg: #414245;
+    --bs-form-select-color: #e8eaed;
+}
+[data-bs-theme="dark-Edge"] {
+    --bg-color: #333333;
+    --text-color: #e8eaed;
+    --secondary-text: #9aa0a6;
+    --input-bg: #3d3d3d;
+    --border-color: #3c4043;
+    --hover-bg: #3c4043;
+    --hover-border: #5f6368;
+    --card-bg: #2b3035;
+    --bs-body-bg: #333333;
+    --bs-body-color: #e8eaed;
+    --bs-body-tertiary-bg: #2b3035;
+    --bs-tertiary-bg: #2b3035;
+    --bs-secondary-color: #9aa0a6;
+    --bs-border-color: #3c4043;
+    --bs-link-color: #8ab4f8;
+    --bs-form-control-bg: #3d3d3d;
+    --bs-form-control-border-color: #3c4043;
+    --bs-form-control-color: #e8eaed;
+    --bs-form-select-bg: #3d3d3d;
+    --bs-form-select-color: #e8eaed;
 }
 
-[data-bs-theme="dark"] body {
-    background: var(--bg-color);
-    color: var(--text-color);
+[data-bs-theme="dark"] body,
+[data-bs-theme="dark"] body.bg-body-tertiary,
+[data-bs-theme="dark"] .bg-body-tertiary {
+    background: var(--bg-color) !important;
+    background-color: var(--bg-color) !important;
+    color: var(--text-color) !important;
 }
 
 [data-bs-theme="dark"] .search-title,
@@ -307,6 +371,146 @@ body {
     background-color: var(--card-bg);
     border-color: var(--border-color);
     color: var(--text-color);
+}
+/* edge dark */
+[data-bs-theme="dark-Edge"] body,
+[data-bs-theme="dark-Edge"] body.bg-body-tertiary,
+[data-bs-theme="dark-Edge"] .bg-body-tertiary {
+    background: var(--bg-color) !important;
+    background-color: var(--bg-color) !important;
+    color: var(--text-color) !important;
+}
+
+[data-bs-theme="dark-Edge"] .search-title,
+[data-bs-theme="dark-Edge"] .search-subtitle,
+[data-bs-theme="dark-Edge"] .footer,
+[data-bs-theme="dark-Edge"] .hitokoto {
+    color: var(--text-color);
+}
+
+[data-bs-theme="dark-Edge"] .search-subtitle {
+    color: var(--secondary-text);
+}
+
+[data-bs-theme="dark-Edge"] .engine-selector select,
+[data-bs-theme="dark-Edge"] #searchInput,
+[data-bs-theme="dark-Edge"] #suggestions,
+[data-bs-theme="dark-Edge"] #suggestions li,
+[data-bs-theme="dark-Edge"] .quick-link-item {
+    background: var(--input-bg);
+    border-color: var(--border-color);
+    color: var(--text-color);
+}
+
+[data-bs-theme="dark-Edge"] #suggestions {
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+}
+
+[data-bs-theme="dark-Edge"] #suggestions li:hover {
+    background-color: var(--hover-bg);
+}
+
+[data-bs-theme="dark-Edge"] .quick-link-item:hover {
+    box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+    border-color: var(--hover-border);
+}
+
+[data-bs-theme="dark-Edge"] .card {
+    background-color: var(--card-bg);
+    border-color: var(--border-color);
+}
+
+[data-bs-theme="dark-Edge"] .list-group-item {
+    background-color: var(--card-bg);
+    border-color: var(--border-color);
+    color: var(--text-color);
+}
+
+/* dark Google */
+[data-bs-theme="dark-Google"] body,
+[data-bs-theme="dark-Google"] body.bg-body-tertiary,
+[data-bs-theme="dark-Google"] .bg-body-tertiary {
+    background: var(--bg-color) !important;
+    background-color: var(--bg-color) !important;
+    color: var(--text-color) !important;
+}
+
+[data-bs-theme="dark-Google"] .search-title,
+[data-bs-theme="dark-Google"] .search-subtitle,
+[data-bs-theme="dark-Google"] .footer,
+[data-bs-theme="dark-Google"] .hitokoto {
+    color: var(--text-color);
+}
+
+[data-bs-theme="dark-Google"] .search-subtitle {
+    color: var(--secondary-text);
+}
+
+[data-bs-theme="dark-Google"] .engine-selector select,
+[data-bs-theme="dark-Google"] #searchInput,
+[data-bs-theme="dark-Google"] #suggestions,
+[data-bs-theme="dark-Google"] #suggestions li,
+[data-bs-theme="dark-Google"] .quick-link-item {
+    background: var(--input-bg);
+    border-color: var(--border-color);
+    color: var(--text-color);
+}
+
+[data-bs-theme="dark-Google"] #suggestions {
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+}
+
+[data-bs-theme="dark-Google"] #suggestions li:hover {
+    background-color: var(--hover-bg);
+}
+
+[data-bs-theme="dark-Google"] .quick-link-item:hover {
+    box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+    border-color: var(--hover-border);
+}
+
+[data-bs-theme="dark-Google"] .card {
+    background-color: var(--card-bg);
+    border-color: var(--border-color);
+}
+
+[data-bs-theme="dark-Google"] .list-group-item {
+    background-color: var(--card-bg);
+    border-color: var(--border-color);
+    color: var(--text-color);
+}
+
+[data-bs-theme="dark"],
+[data-bs-theme="dark-Google"],
+[data-bs-theme="dark-Edge"] {
+    scrollbar-color: rgba(255,255,255,0.28) var(--bg-color);
+}
+
+[data-bs-theme="dark"] ::-webkit-scrollbar,
+[data-bs-theme="dark-Google"] ::-webkit-scrollbar,
+[data-bs-theme="dark-Edge"] ::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+}
+
+[data-bs-theme="dark"] ::-webkit-scrollbar-track,
+[data-bs-theme="dark-Google"] ::-webkit-scrollbar-track,
+[data-bs-theme="dark-Edge"] ::-webkit-scrollbar-track {
+    background: var(--bg-color);
+}
+
+[data-bs-theme="dark"] ::-webkit-scrollbar-thumb,
+[data-bs-theme="dark-Google"] ::-webkit-scrollbar-thumb,
+[data-bs-theme="dark-Edge"] ::-webkit-scrollbar-thumb {
+    background-color: rgba(255,255,255,0.22);
+    border-radius: 999px;
+    border: 3px solid var(--bg-color);
+}
+
+[data-bs-theme="dark"] ::-webkit-scrollbar-thumb:hover,
+[data-bs-theme="dark-Google"] ::-webkit-scrollbar-thumb:hover,
+[data-bs-theme="dark-Edge"] ::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(255,255,255,0.32);
 }
 
 /* 移动端适配 */

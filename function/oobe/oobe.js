@@ -18,6 +18,10 @@ document.addEventListener('DOMContentLoaded', function() {
     themeSelect.value = localStorage.getItem('theme') || 'light';
     weatherToggle.checked = localStorage.getItem('weatherEnabled') !== 'false';
     suggestionSelect.value = localStorage.getItem('suggestionBehavior') || 'fill';
+    const openModeSelect = document.getElementById('oobeSearchOpenMode');
+    if (openModeSelect) {
+        openModeSelect.value = localStorage.getItem('searchOpenMode') || 'newTab';
+    }
     document.documentElement.setAttribute('data-bs-theme', themeSelect.value);
 
     themeSelect.addEventListener('change', function() {
@@ -84,6 +88,7 @@ document.addEventListener('DOMContentLoaded', function() {
         localStorage.setItem('theme', themeSelect.value);
         localStorage.setItem('weatherEnabled', weatherToggle.checked ? 'true' : 'false');
         localStorage.setItem('suggestionBehavior', suggestionSelect.value);
+        localStorage.setItem('searchOpenMode', openModeSelect ? openModeSelect.value : 'newTab');
         localStorage.setItem('hasVisited', 'true');
         localStorage.setItem('privacyAccepted', privacyCheckbox.checked ? 'true' : 'false');
         if (window.SimpleNotify && typeof SimpleNotify.show === 'function') {

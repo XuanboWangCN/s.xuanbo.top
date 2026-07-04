@@ -1,0 +1,26 @@
+{
+  "manifest_version": 3,
+  "name": "简·搜索 新标签页与首页",
+  "description": "将简·搜索设为 Chrome 新标签页和首页，支持本地设置与搜索建议。",
+  "version": "1.0.0",
+  "icons": {
+    "16": "ico.png",
+    "48": "ico.png",
+    "128": "ico.png"
+  },
+  "chrome_url_overrides": {
+    "newtab": "index.html"
+  },
+  "permissions": [
+    "storage"
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "simple-notice/index.js",
+        "sw.js"
+      ],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}
