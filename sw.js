@@ -1,5 +1,5 @@
 // 定义缓存的名称（包含版本号以便更新）
-const CACHE_NAME = 'JianSouSuo v95555'; // 可以根据需要更新版本号
+const CACHE_NAME = 'JianSouSuo v9 26 111'; // 可以根据需要更新版本号
 // 需要缓存的资源列表
 const STATIC_ASSETS = [
   '/',
@@ -79,18 +79,19 @@ function cacheFirstWithFallback(request, cacheKey) {
           const responseClone = response.clone();
           caches.open(CACHE_NAME).then(cache => {
             cache.put(cacheKey, responseClone).catch(err => {
-              console.warn(`简·搜索: Warning 无法缓存响应: ${cacheKey.url || cacheKey}`, err);
+              const keyLabel = typeof cacheKey === 'string' ? cacheKey : cacheKey.url || String(cacheKey);
+              console.warn(`简·搜索: Warning 无法缓存响应: ${keyLabel}`, err);
             });
           });
           return response;
         })
         .catch(err => {
           console.error(`简·搜索: Error 请求失败: ${request.url}`, err);
-          return caches.match('/index.html') || new Response('页面暂不可用', {
+          return caches.match('/index.html').then(cachedIndex => cachedIndex || new Response('页面暂不可用', {
             status: 503,
             statusText: 'Service Unavailable',
             headers: new Headers({ 'Content-Type': 'text/plain; charset=utf-8' })
-          });
+          }));
         });
     });
 }
@@ -117,10 +118,18 @@ self.addEventListener('fetch', event => {
 
   if (isDocumentRequest) {
     const normalizedUrl = normalizeDocumentUrl(requestUrl);
-    const normalizedRequest = new Request(normalizedUrl, event.request);
-    const cacheKey = normalizedRequest.url.endsWith('/') ? new Request(normalizedUrl, { method: 'GET' }) : normalizedRequest;
+    const normalizedRequest = new Request(normalizedUrl.href, {
+      method: 'GET',
+      headers: event.request.headers,
+      credentials: event.request.credentials,
+      redirect: 'follow',
+      referrer: event.request.referrer,
+      referrerPolicy: event.request.referrerPolicy,
+      integrity: event.request.integrity,
+      cache: event.request.cache
+    });
 
-    event.respondWith(cacheFirstWithFallback(normalizedRequest, cacheKey));
+    event.respondWith(cacheFirstWithFallback(normalizedRequest, normalizedUrl.href));
     return;
   }
 
