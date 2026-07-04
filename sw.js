@@ -1,5 +1,5 @@
 // 定义缓存的名称（包含版本号以便更新）
-const CACHE_NAME = 'JianSouSuo v95 fixed 2026-07-04'; // 可以根据需要更新版本号
+const CACHE_NAME = 'JianSouSuo v9.5 fixed error'; // 可以根据需要更新版本号
 // 需要缓存的资源列表
 const STATIC_ASSETS = [
   '/',
@@ -67,17 +67,19 @@ self.addEventListener('fetch', event => {
           if (cachedResponse) {
             return cachedResponse;
           }
-          return fetch(event.request)
+
+          return fetch(event.request.clone(), { redirect: 'follow' })
             .then(response => {
-              // 缓存成功的响应
-              if (response && response.status === 200) {
-                const responseClone = response.clone();
-                caches.open(CACHE_NAME).then(cache => {
-                  cache.put(event.request, responseClone).catch(err => {
-                    console.warn(`简·搜索: Warning 无法缓存响应: ${event.request.url}`, err);
-                  });
-                });
+              if (!response || response.status !== 200 || response.type === 'opaque') {
+                return response;
               }
+
+              const responseClone = response.clone();
+              caches.open(CACHE_NAME).then(cache => {
+                cache.put(event.request, responseClone).catch(err => {
+                  console.warn(`简·搜索: Warning 无法缓存响应: ${event.request.url}`, err);
+                });
+              });
               return response;
             })
             .catch(err => {
@@ -91,6 +93,7 @@ self.addEventListener('fetch', event => {
         })
         .catch(err => {
           console.error(`简·搜索: Error 缓存操作失败: ${event.request.url}`, err);
+          return fetch(event.request.clone(), { redirect: 'follow' });
         })
     );
   } else {
