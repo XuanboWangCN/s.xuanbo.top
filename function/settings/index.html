@@ -19,32 +19,35 @@
         }
         
         .settings-panel {
-            border-radius: 10px;
-            border: 1px solid var(--bs-border-color);
-            background: var(--bs-body-bg);
-            overflow: hidden;
+            border: none;
+            background: transparent;
+            overflow: visible;
             margin-bottom: 1.5rem;
         }
         
         .settings-header {
-            padding: 1rem 1.5rem;
-            background-color: var(--bs-tertiary-bg);
-            border-bottom: 1px solid var(--bs-border-color);
+            display: none;
         }
         
         .settings-body {
-            padding: 1.5rem;
+            padding: 0;
         }
         
         .settings-section {
             padding: 1.5rem 0;
             border-bottom: 1px solid var(--bs-border-color);
             margin-bottom: 1.5rem;
+            margin-left: 1.5rem;
+            margin-right: 1.5rem;
+        }
+        
+        .settings-section:first-child {
+            margin-top: 1.5rem;
         }
         
         .settings-section:last-child {
             border-bottom: none;
-            margin-bottom: 0;
+            margin-bottom: 1.5rem;
             padding-bottom: 0;
         }
         
@@ -102,6 +105,22 @@
             flex-shrink: 0;
             width: 70px;
         }
+
+        .quick-link-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex-shrink: 0;
+        }
+
+        .quick-link-actions .form-select {
+            min-width: 96px;
+            width: 96px;
+        }
+
+        .quick-link-actions.lab-disabled {
+            gap: 0;
+        }
         
         .empty-message {
             color: var(--bs-secondary-color);
@@ -126,6 +145,11 @@
             padding-top: 1.5rem;
             margin-top: 1.5rem;
             border-top: 1px solid var(--bs-border-color);
+        }
+
+        .settings-wrapper > div:last-child {
+            margin-left: 1.5rem;
+            margin-right: 1.5rem;
         }
         
         @media (max-width: 768px) {
@@ -160,8 +184,8 @@
             </div>
             -->
             <div class="settings-body">
-                <h2 class="h5 mb-3"><p><a href="https://microsoftedge.microsoft.com/addons/detail/%E7%AE%80%C2%B7%E6%90%9C%E7%B4%A2-%E6%96%B0%E6%A0%87%E7%AD%BE%E9%A1%B5%E8%B5%B7%E5%A7%8B%E9%A1%B5/deadphldhahcdcfnegoneoneipkddhmn" class="link-secondary text-decoration-none addon-link mb-4" target="_blank">建议:你可以在 Microsoft Edge 扩展商店 中安装简·搜索扩展插件程序</a></p>
-            </h2>
+                <!--h2 class="h5 mb-3"><p><a href="https://microsoftedge.microsoft.com/addons/detail/%E7%AE%80%C2%B7%E6%90%9C%E7%B4%A2-%E6%96%B0%E6%A0%87%E7%AD%BE%E9%A1%B5%E8%B5%B7%E5%A7%8B%E9%A1%B5/deadphldhahcdcfnegoneoneipkddhmn" class="link-secondary text-decoration-none addon-link mb-4" target="_blank">建议:你可以在 Microsoft Edge 扩展商店 中安装简·搜索扩展插件程序</a></p>
+            </h2>-->
                 <div class="settings-section">
                     <h2 class="h5 mb-3">主题</h2>
                     <div class="mb-3">
@@ -211,13 +235,21 @@
                     <h3 class="h6 mb-3">添加快捷链接 <small class="text-muted">* 最多16个</small></h3>
                     <div class="add-quicklink-form">
                         <div class="row g-2">
-                            <div class="col-md-5">
+                            <div class="col-md-4">
                                 <label for="quickName" class="form-label">网站名称</label>
                                 <input type="text" class="form-control" id="quickName" placeholder="例如: GitHub" maxlength="20">
                             </div>
-                            <div class="col-md-5">
+                            <div class="col-md-4">
                                 <label for="quickUrl" class="form-label">网站地址</label>
                                 <input type="text" class="form-control" id="quickUrl" placeholder="例如: https://github.com">
+                            </div>
+                            <div class="col-md-2" id="quickOpenModeGroup">
+                                <label for="quickOpenMode" class="form-label" id="quickOpenModeLabel">打开方式</label>
+                                <select class="form-select" id="quickOpenMode">
+                                    <option value="newTab">新标签页</option>
+                                    <option value="current">当前页</option>
+                                    <option value="popup">弹层</option>
+                                </select>
                             </div>
                             <div class="col-md-2 d-flex align-items-end">
                                 <button class="btn btn-primary w-100" id="addQuickLink">添加</button>
@@ -227,16 +259,34 @@
                     
                     <div class="mt-2">
                         <h3 class="h6 mb-3">已添加的快捷链接</h3>
+                        <div class="form-text mt-2 mb-3" id="quickLinkLabHint">开启实验室功能后，快捷链接可使用弹层等实验性打开方式。</div>
                         <div class="quick-links-container" id="currentQuickLinks">
                             <div class="empty-message">暂未添加快捷网站</div>
                         </div>
                     </div>
                 </div>
-                
+
+                <div class="settings-section">
+                    <h2 class="h5 mb-3">实验室功能</h2>
+                    <div class="mb-3">
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" role="switch" id="labFeatureToggle">
+                            <label class="form-check-label" for="labFeatureToggle">启用实验室功能</label>
+                        </div>
+                        <div class="form-text">开启后，快捷链接的实验性打开方式设置和弹层访问能力才会显示并可用。</div>
+                    </div>
+                </div>
+                <div class="settings-section">
+                    <h2 class="h5 mb-3">其他</h2>
+                    <div class="mb-3">
+                        <a href="https://microsoftedge.microsoft.com/addons/detail/%E7%AE%80%C2%B7%E6%90%9C%E7%B4%A2-%E6%96%B0%E6%A0%87%E7%AD%BE%E9%A1%B5%E8%B5%B7%E5%A7%8B%E9%A1%B5/deadphldhahcdcfnegoneoneipkddhmn" target="_blank" class="" style="color: var(--bs-link-color); text-decoration: none;">在 Microsoft Edge 扩展商店 中安装简·搜索扩展插件程序</a>
+                        <br><a href="https://s.xuanbo.top/privacypolicy/" target="_blank" class="" style="color: var(--bs-link-color); text-decoration: none;">查看隐私政策</a>
+                    </div>
+                </div>
             </div>
         </div>
     <div style="text-align:center; margin-top:1.5rem; color: var(--bs-secondary-color); font-size: 0.9rem;">
-        简·搜索
+        简·搜索 v10.0.0
         <p>Copyright © <a href="https://github.com/XuanboWangCN" target="_blank">XuanboWang</a> 2025. All rights reserved.<br>
         Powered by <a href="https://xuanbo.top" target="_blank">Xuanbo.top</a><br></p>
     </div>

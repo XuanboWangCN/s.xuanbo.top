@@ -1,5 +1,5 @@
 // 定义缓存的名称（包含版本号以便更新）
-const CACHE_NAME = 'JianSouSuo v9 26 111'; // 可以根据需要更新版本号
+const CACHE_NAME = 'JianSouSuo v10.0.0'; // 可以根据需要更新版本号
 // 需要缓存的资源列表
 const STATIC_ASSETS = [
   '/',
@@ -55,54 +55,46 @@ self.addEventListener('activate', event => {
   );
 });
 
-function normalizeDocumentUrl(requestUrl) {
-  const normalizedUrl = new URL(requestUrl.href);
-  if (normalizedUrl.pathname.endsWith('/index.html')) {
-    normalizedUrl.pathname = normalizedUrl.pathname.replace(/\/index\.html$/i, '/');
-  }
-  return normalizedUrl;
-}
-
-function cacheFirstWithFallback(request, cacheKey) {
-  return caches.match(cacheKey)
-    .then(cachedResponse => {
-      if (cachedResponse) {
-        return cachedResponse;
-      }
-
-      return fetch(request, { redirect: 'follow' })
-        .then(response => {
-          if (!response || response.status !== 200 || response.type === 'opaque') {
-            return response;
-          }
-
-          const responseClone = response.clone();
-          caches.open(CACHE_NAME).then(cache => {
-            cache.put(cacheKey, responseClone).catch(err => {
-              const keyLabel = typeof cacheKey === 'string' ? cacheKey : cacheKey.url || String(cacheKey);
-              console.warn(`简·搜索: Warning 无法缓存响应: ${keyLabel}`, err);
-            });
-          });
-          return response;
-        })
-        .catch(err => {
-          console.error(`简·搜索: Error 请求失败: ${request.url}`, err);
-          return caches.match('/index.html').then(cachedIndex => cachedIndex || new Response('页面暂不可用', {
-            status: 503,
-            statusText: 'Service Unavailable',
-            headers: new Headers({ 'Content-Type': 'text/plain; charset=utf-8' })
-          }));
-        });
-    });
-}
-
 // 拦截请求并返回缓存或网络
 self.addEventListener('fetch', event => {
   const requestUrl = new URL(event.request.url);
-  const isSameOrigin = requestUrl.origin === self.location.origin;
-  const isDocumentRequest = event.request.mode === 'navigate' || event.request.destination === 'document';
 
-  if (!isSameOrigin) {
+  // 对于同源请求，使用缓存优先策略
+  if (requestUrl.origin === location.origin) {
+    event.respondWith(
+      caches.match(event.request)
+        .then(cachedResponse => {
+          if (cachedResponse) {
+            return cachedResponse;
+          }
+          return fetch(event.request)
+            .then(response => {
+              // 缓存成功的响应
+              if (response && response.status === 200) {
+                const responseClone = response.clone();
+                caches.open(CACHE_NAME).then(cache => {
+                  cache.put(event.request, responseClone).catch(err => {
+                    console.warn(`简·搜索: Warning 无法缓存响应: ${event.request.url}`, err);
+                  });
+                });
+              }
+              return response;
+            })
+            .catch(err => {
+              console.error(`简·搜索: Error 请求失败: ${event.request.url}`, err);
+              return new Response('网络请求失败，请检查您的网络连接', {
+                status: 503,
+                statusText: 'Service Unavailable',
+                headers: new Headers({ 'Content-Type': 'text/plain; charset=utf-8' })
+              });
+            });
+        })
+        .catch(err => {
+          console.error(`简·搜索: Error 缓存操作失败: ${event.request.url}`, err);
+        })
+    );
+  } else {
+    // 对于跨域请求，直接使用网络
     event.respondWith(
       fetch(event.request).catch(err => {
         console.error(`简·搜索: Error 跨域请求失败: ${event.request.url}`, err);
@@ -113,26 +105,5 @@ self.addEventListener('fetch', event => {
         });
       })
     );
-    return;
   }
-
-  if (isDocumentRequest) {
-    const normalizedUrl = normalizeDocumentUrl(requestUrl);
-    const normalizedRequest = new Request(normalizedUrl.href, {
-      method: 'GET',
-      headers: event.request.headers,
-      credentials: event.request.credentials,
-      redirect: 'follow',
-      referrer: event.request.referrer,
-      referrerPolicy: event.request.referrerPolicy,
-      integrity: event.request.integrity,
-      cache: event.request.cache
-    });
-
-    event.respondWith(cacheFirstWithFallback(normalizedRequest, normalizedUrl.href));
-    return;
-  }
-
-  // 对于静态资源，使用缓存优先策略
-  event.respondWith(cacheFirstWithFallback(event.request, event.request));
 });

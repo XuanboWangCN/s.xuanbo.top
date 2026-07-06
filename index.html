@@ -68,11 +68,32 @@
             cursor: pointer;
             padding: 0;
         }
+        .settings-modal-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.45rem;
+        }
+        .settings-modal-action {
+            background: transparent;
+            border: 0;
+            color: var(--bs-body-color, #222);
+            font-size: 1rem;
+            line-height: 1;
+            cursor: pointer;
+            padding: 0.2rem 0.4rem;
+            border-radius: 6px;
+        }
+        .settings-modal-action:hover {
+            background: rgba(0, 0, 0, 0.06);
+        }
         .settings-modal iframe {
             width: 100%;
             height: calc(100vh - 76px);
             border: 0;
             background: transparent;
+        }
+        .quick-link-modal {
+            width: min(1100px, 100%);
         }
         @media (max-width: 768px) {
             .settings-modal {
@@ -134,6 +155,19 @@ if ('serviceWorker' in navigator) {
                 <button id="closeSettingsOverlay" class="settings-modal-close" type="button" aria-label="关闭设置">×</button>
             </div>
             <iframe id="settingsIframe" src="./function/settings/index.html" title="简·搜索 设置页面"></iframe>
+        </div>
+    </div>
+    <div id="quickLinkOverlay" class="settings-overlay hidden" aria-hidden="true">
+        <div class="settings-modal quick-link-modal" role="dialog" aria-modal="true" aria-label="快捷链接">
+            <div class="settings-modal-header">
+                <h2 class="settings-modal-title" id="quickLinkModalTitle">快捷链接</h2>
+                <div class="settings-modal-actions">
+                    <button id="quickLinkOpenNewTabBtn" class="settings-modal-action" type="button" title="在新标签页打开" aria-label="在新标签页打开">↗</button>
+                    <button id="quickLinkInfoBtn" class="settings-modal-action" type="button" title="实验室功能说明" aria-label="实验室功能说明">ℹ</button>
+                    <button id="closeQuickLinkOverlay" class="settings-modal-close" type="button" aria-label="关闭快捷链接">×</button>
+                </div>
+            </div>
+            <iframe id="quickLinkIframe" title="快捷链接内容"></iframe>
         </div>
     </div>
     <script src="script.js"></script>

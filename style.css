@@ -328,6 +328,13 @@ body {
     color: var(--text-color) !important;
 }
 
+[data-bs-theme="dark-Google"] .form-select,
+[data-bs-theme="dark-Edge"] .form-select {
+    --bs-form-select-bg-img: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23dee2e6' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
+    background-image: var(--bs-form-select-bg-img), var(--bs-form-select-bg-icon, none);
+    color: var(--bs-form-select-color);
+}
+
 [data-bs-theme="dark"] .search-title,
 [data-bs-theme="dark"] .search-subtitle,
 [data-bs-theme="dark"] .footer,
